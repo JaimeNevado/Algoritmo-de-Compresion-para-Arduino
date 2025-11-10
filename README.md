@@ -61,3 +61,6 @@ Nuestros resultados empíricos para la fuente cohete.ino validan esta teoría:
     3. LONGITUD 'MI ALGORITMO' (L_mio): 21.9089 bits/token
     ==========================================
     LÍMITE TEÓRICO DE COMPRESIÓN (Tokens): 838.63 bytes
+
+## La explicación del proyecto se encuentra online mediante el siguiente enlace:
+https://www.youtube.com/watch?v=1uZ4k4dRS4Q
