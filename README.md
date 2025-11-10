@@ -1,3 +1,5 @@
+# Algoritmo de Compresion para Arduino
+
 Este repositorio contiene el trabajo de investigación para la asignatura de Teoría de la Información y Codificación. El proyecto consiste en el diseño, implementación y análisis teórico de un algoritmo de compresión optimizado para código fuente de Arduino (.ino).
 
 El algoritmo implementado es un compresor por diccionario estático (tokenizador). Su objetivo no es competir con algoritmos de propósito general como DEFLATE (ZIP), sino servir como un caso de estudio práctico para:
@@ -8,7 +10,7 @@ El algoritmo implementado es un compresor por diccionario estático (tokenizador
 
   - Analizar la eficiencia de un algoritmo "inventivo" comparándolo con los límites teóricos (Entropía de Shannon) y óptimos (Codificación de Huffman).
 
-El compresor (compresor.py) funciona bajo un principio de tokenización y sustitución por diccionario.
+## El compresor (compresor.py) funciona bajo un principio de tokenización y sustitución por diccionario.
 
   - Limpieza: El script primero elimina todos los comentarios (// ... y /* ... */) del archivo .ino para reducir el ruido.
 
@@ -17,8 +19,7 @@ El compresor (compresor.py) funciona bajo un principio de tokenización y sustit
   - Compresión: El script genera un nuevo archivo (.ino comprimido) donde todas las apariciones de esas palabras clave han sido reemplazadas por sus alias. Los tokens que no están en         el diccionario (como nombres de variables, números o símbolos como ;) se dejan sin modificar.
 
 
-
-#Modo de Uso
+## Modo de Uso
 
 El proyecto requiere Python 3.10 o superior.
 
@@ -42,46 +43,21 @@ El proyecto requiere Python 3.10 o superior.
     python3.10 descompresor.py cohete
 
 
-#Análisis Teórico y Resultados
+## Análisis Teórico y Resultados
 
-El objetivo central de la investigación era validar la teoría de la asignatura usando el archivo cohete.ino como "fuente emisora". El script calcular_metricas.py nos permite comparar la eficiencia de nuestro algoritmo.
+  El objetivo central de la investigación era validar la teoría de la asignatura usando el archivo cohete.ino como "fuente emisora". El         script calcular_metricas.py nos permite comparar la eficiencia de nuestro algoritmo.
 
-La teoría de la codificación económica establece la relación:
-Entropía ($H$) $\le$ Longitud Óptima ($L_{opt}$) $\le$ Longitud de Cualquier Otro Código ($L_{mio}$)
+  La teoría de la codificación económica establece la relación:
+    Entropía ($H$) $\le$ Longitud Óptima ($L_{opt}$) $\le$ Longitud de Cualquier Otro Código ($L_{mio}$)
 
 Nuestros resultados empíricos para la fuente cohete.ino validan esta teoría:
 
---- ANÁLISIS A NIVEL DE TOKENS (Fuente: cohete.ino) ---
-Total de Tokens: 1098
-Tokens Únicos (m): 199
-==========================================
-1. LÍMITE TEÓRICO (ENTROPÍA, H):    6.1102 bits/token
-2. LÍMITE ÓPTIMO (HUFFMAN, L_opt): 6.1466 bits/token
-3. LONGITUD 'MI ALGORITMO' (L_mio): 21.9089 bits/token
-==========================================
-LÍMITE TEÓRICO DE COMPRESIÓN (Tokens): 838.63 bytes
-
-
-Interpretación de los Resultados
-
-Validación de la Codificación por Bloques (Tokens):
-El análisis de tokens (límite de 838.63 bytes) es 3.1 veces más eficiente que un análisis por caracteres (límite de 2622.77 bytes). Esto demuestra que la hipótesis de tratar el código como "palabras" (tokens) es un método de compresión vastamente superior para esta fuente, tal como se estudia en el Tema 4.
-
-Análisis de Eficiencia del Algoritmo ($L_{mio}$):
-Nuestra longitud media (L_mio = 21.91) es significativamente mayor que la óptima de Huffman (L_opt = 6.15). Este análisis expone las carencias del algoritmo "inventivo":
-
-Coste de Alias: El alias más corto (ej. "$c") tiene un coste de 16 bits (len("$c") * 8), mientras que Huffman puede asignar códigos de 1 a 3 bits a los tokens más frecuentes.
-
-Diccionario Incompleto: El algoritmo falla al no comprimir los tokens más frecuentes del archivo (como ;, (, ), i, =), los cuales tienen un coste de 8 bits. Huffman les asigna un coste mínimo (ej. 1-2 bits), reduciendo drásticamente la longitud media.
-
-Conclusiones y Trabajo Futuro
-
-Conclusión 1: El proyecto demuestra con éxito el diseño y funcionamiento de un compresor por diccionario estático, aplicando los conceptos de la asignatura.
-
-Conclusión 2: El análisis empírico ha validado la teoría de la información, calculando la entropía ($H$) como un límite teórico y la codificación de Huffman ($L_{opt}$) como el límite práctico para la fuente dada.
-
-Trabajo Futuro: El análisis identifica dos áreas claras de mejora:
-
-Optimización Estadística: Añadir los símbolos de puntuación más frecuentes (;, (, )) al rosetta.json reduciría drásticamente el L_mio.
-
-Implementación de Diccionario Dinámico: Para manejar tokens desconocidos (como nombres de variables: ALTITUD, TEMPERATURA), el siguiente paso sería implementar un algoritmo LZW (Lempel-Ziv-Welch), como se describe en el Tema 4 (p. 63), que pueda aprender estos tokens sobre la marcha.
+    --- ANÁLISIS A NIVEL DE TOKENS (Fuente: cohete.ino) ---
+    Total de Tokens: 1098
+    Tokens Únicos (m): 199
+    ==========================================
+    1. LÍMITE TEÓRICO (ENTROPÍA, H):    6.1102 bits/token
+    2. LÍMITE ÓPTIMO (HUFFMAN, L_opt): 6.1466 bits/token
+    3. LONGITUD 'MI ALGORITMO' (L_mio): 21.9089 bits/token
+    ==========================================
+    LÍMITE TEÓRICO DE COMPRESIÓN (Tokens): 838.63 bytes
